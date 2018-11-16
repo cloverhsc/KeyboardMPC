@@ -1,14 +1,22 @@
 <div>
-  <span>Model</span>
-  <select>
-    <option *ngFor="let item of keys"
-    [value]="KeyboardList.ProductionList[item].code">
-      {{KeyboardList.ProductionList[item].name}}
-    </option>
-  </select>
+  <form [formGroup]="keybdForm">
+    <span>Model</span>
+    <select formControlName="keyboardModel">
+      <option *ngFor="let item of keys"
+      [value]="KeyboardList.ProductionList[item].code">
+        {{KeyboardList.ProductionList[item].name}}
+      </option>
+    </select>
 
-  <span>Layout</span>
-  <select>
-
-  </select>
+    <span>Layout</span>
+    <select formControlName="layoutLang">
+      <option *ngFor="let item of
+      KeyboardList.ProductionList[keybdForm.value.keyboardModel].language"
+      [value]="item.name">
+      {{item.name}}
+      </option>
+    </select>
+    <p>keyboard model code: {{keybdForm.value.keyboardModel}}</p>
+    <p>keyboard model lang: {{keybdForm.value.layoutLang}}</p>
+  </form>
 </div>

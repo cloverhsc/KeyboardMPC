@@ -1,0 +1,14 @@
+<div>
+  <span>Model</span>
+  <select>
+    <option *ngFor="let item of keys"
+    [value]="KeyboardList.ProductionList[item].code">
+      {{KeyboardList.ProductionList[item].name}}
+    </option>
+  </select>
+
+  <span>Layout</span>
+  <select>
+
+  </select>
+</div>

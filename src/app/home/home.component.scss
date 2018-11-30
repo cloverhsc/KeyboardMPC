@@ -11,7 +11,7 @@ $border-line-color: #666666;
   display: grid;
   height: 100vh;
   width: 100vw;
-  grid-template-rows: 15% 7% 71% 7%;
+  grid-template-rows: 14% 5% 75% 6%;
 }
 
 .brand {
@@ -37,7 +37,7 @@ $border-line-color: #666666;
   display: grid;
   height: 100%;
   width: 100%;
-  grid-template-rows: 10% 90%;
+  grid-template-rows: 7% 93%;
 }
 
 ul {
@@ -98,6 +98,8 @@ ul {
 
 .production {
   background-color: $content-background;
+  display: flex;
+  align-items: center;
 }
 
 .functionality {

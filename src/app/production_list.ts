@@ -3,20 +3,24 @@ import { Language } from './keyboard_Object/keyboard-model';
  * All production keyboard list and information.
  */
 
-interface KeyboardInfo {
+interface Keyboard {
   name: string;
   code: string;
   profileCount: number;
-  layerList: Array<string>;
+  funcKeyList: Array<string>;
   language: Array<Language>;
 }
 
-export const ProductionList = {
+export interface KeyboardInfo {
+  ['string']: Keyboard;
+}
+
+export const ProdList = {
   'core4700': {
     name: 'CORE',
     code: 'core4700',
     profileCount: 5,
-    layerList: ['fn', 'pn', 'fn1'],
+    funcKeyList: ['fn', 'pn', 'fn1'],
     language: [
       {
         name: 'ANSI',
@@ -27,7 +31,7 @@ export const ProductionList = {
     name: 'ViBE',
     code: 'vtg7900',
     profileCount: 4,
-    layerList: ['fn', 'pn'],
+    funcKeyList: ['fn', 'pn'],
     language: [
       {
         name: 'ANSI',
@@ -50,7 +54,7 @@ export const ProductionList = {
     name: 'New 75(Race 3)',
     code: 'vtg7500_1',
     profileCount: 4,
-    layerList: ['fn', 'pn'],
+    funcKeyList: ['fn', 'pn'],
     language: [
       {
         name: 'ANSI',
@@ -73,7 +77,7 @@ export const ProductionList = {
     name: 'CYPHER',
     code: 'vtg6500',
     profileCount: 4,
-    layerList: ['fn', 'pn'],
+    funcKeyList: ['fn', 'pn'],
     language: [
       {
         name: 'ANSI',
@@ -89,4 +93,43 @@ export const ProductionList = {
         code: 'de'
       }
     ]}
+};
+
+export class ProductionList {
+  public KeyboardList: {KeyboardInfo};
+}
+
+
+const temp = {
+  'macro': [{
+    'profileIndex': '1',
+    'sourceKey': 24,
+    'sourceLayer': 'INIT',
+    'macroType': '1',
+    'macroRepeat': '2',
+    'setting': { 'timer': '10', 'layer': 'INIT' },
+    'macro': [
+      { 'key': 'E0', 'layer': 'INIT', 'event': '1', 'timer': '10' },
+      { 'key': 14, 'layer': 'INIT', 'event': '1', 'timer': '10' },
+      { 'key': 'E0', 'layer': 'INIT', 'event': '0', 'timer': '10' },
+      { 'key': 14, 'layer': 'INIT', 'event': '0', 'timer': '10' }
+    ]
+  }],
+    'keyChange': [{
+      'profileIndex': 2,
+      'sourceKey': '1C',
+      'sourceLayer': 'INIT',
+      'targetKey': 13,
+      'targetLayer': 'INIT'
+    }],
+    'functionSet': []
+  };
+
+const tempb = {
+  'keyboard': 'vtg7500_1',
+  'language': 'uk',
+  'profileCount': 4,
+  'layerList': ['fn', 'pn'],
+  'profile': '1',
+  'layer': 'INIT'
 };

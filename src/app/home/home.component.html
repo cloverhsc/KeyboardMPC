@@ -1,22 +1,93 @@
-<div>
-  <form [formGroup]="keybdForm">
-    <span>Model</span>
-    <select formControlName="keyboardModel">
-      <option *ngFor="let item of keys"
-      [value]="KeyboardList.ProductionList[item].code">
-        {{KeyboardList.ProductionList[item].name}}
-      </option>
-    </select>
+<div class="mycontainer">
+  <div class='item header'>
+      <a href="//www.vortexgear.tw/" target="_blank">
+        <img src='assets/logo.png'>
+        <p class="brand">{{brand}}</p>
+      </a>
+  </div>
+  <div class='item production'>
+    <form [formGroup]="PageForm" id="productionForm">
+      <div class="selectopt model">
+        <span class="selectlabel">Model</span>
+        <select formControlName="keyboardModel" (change)="onModelChange($event)"
+        class="custom-select">
+          <option *ngFor="let item of keys"
+          [value]="KeyboardList[item].code">
+            {{KeyboardList[item].name}}
+          </option>
+        </select>
+      </div>
 
-    <span>Layout</span>
-    <select formControlName="layoutLang">
-      <option *ngFor="let item of
-      KeyboardList.ProductionList[keybdForm.value.keyboardModel].language"
-      [value]="item.name">
-      {{item.name}}
-      </option>
-    </select>
-    <p>keyboard model code: {{keybdForm.value.keyboardModel}}</p>
-    <p>keyboard model lang: {{keybdForm.value.layoutLang}}</p>
-  </form>
+      <div class="selectopt layout">
+        <span class="selectlabel">Layout</span>
+        <select formControlName="layoutLang" class="custom-select">
+          <option *ngFor="let item of KeyboardList[PageForm.value.keyboardModel].language"
+          [value]="item.name" >
+          {{item.name}}
+          </option>
+        </select>
+      </div>
+
+      <div class="selectopt layer">
+        <span class="selectlabel">Layer</span>
+          <select formControlName="profile" class="custom-select">
+            <option *ngFor="let item of ExpendNumToArray(
+            KeyboardList[PageForm.value.keyboardModel].profileCount)"
+            [value]="item">
+              {{item}}
+            </option>
+          </select>
+      </div>
+
+      <div class="selectopt funckey">
+        <span class="selectlabel">Func.key</span>
+          <select formControlName="func_key" class="custom-select">
+            <option value='default'>DEFAULT</option>
+          </select>
+      </div>
+    </form>
+  </div>
+
+  <div class='item functionality' id="functionality">
+    <!-- tab section -->
+    <section class="func_item tab">
+      <ul class="tab-sec">
+        <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn btn-default macro"
+        id="macro-tab" (click)="Opentab('macro-tab')">Macro (
+          <span>0</span>/60)
+        </li>
+
+        <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn btn-default keychange"
+        id="keychange-tab" (click)="Opentab('keychange-tab')">Key Change (
+          <span>0</span>)
+        </li>
+
+        <li class="col-xs-2 col-sm-2 col-md-2 col-lg-2 btn btn-default funckey"
+        id="funckey-tab" (click)="Opentab('funckey-tab')">Func. key change (
+          <span>0</span>)
+        </li>
+      </ul>
+    </section>
+
+    <!-- show tab content-->
+    <section class="func_item" id="func_item">
+      <div id="macro-content" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tab-content">
+        <h3>Macro content</h3>
+      </div>
+
+      <div id="keychange-content"
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tab-content none">
+        <h3>key change content</h3>
+      </div>
+
+      <div id="funckey-content"
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tab-content none">
+        <h3>Func key content</h3>
+      </div>
+    </section>
+  </div>
+
+  <div class='item footer'>
+    <p>&copy; 2014 Vortexgear. All Rights Reserved.</p>
+  </div>
 </div>

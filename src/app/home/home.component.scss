@@ -1,0 +1,115 @@
+$head-footer-background: #3F3F3F;
+$content-background: #F0EDEE;
+$border-line-color: #666666;
+
+%position-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mycontainer {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-rows: 15% 7% 71% 7%;
+}
+
+.brand {
+  color: #FFF;
+}
+
+.header {
+  background-color: $head-footer-background;
+  display: flex;
+  justify-content: center;
+  a {
+    @extend %position-center;
+    flex-direction: column;
+    height: 100%;
+    width: 122px;
+    .brand {
+      margin: 5px 0px;
+    }
+  }
+}
+
+#functionality {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-rows: 10% 90%;
+}
+
+ul {
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  li {
+    border: 0px;
+    margin-right: 0px;
+    background-color: #666666;
+    color: #cbc0aa;
+    border-radius: 10px 10px 0px 0px;
+    margin-left: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .clicked {
+    background-color: $content-background;
+    color: #333333;
+    border: 1px solid $border-line-color;
+    border-bottom: none;
+    // box-shadow: 2px 0px 3px 0px #ddd;
+    z-index: 1;
+    margin-bottom: -1px;
+  }
+}
+
+.tab-content {
+  margin-left: 5px;
+  background-color: $content-background;
+  border: 1px solid $border-line-color;
+  height: 100%;
+  width: calc(100% - 10px);
+}
+
+// #func_item {
+//   display: grid;
+//   height: 100%;
+//   width: 100%;
+//   grid-template-columns: 70% 30%;
+//   grid-template-rows: 1;
+// }
+
+#productionForm {
+  color: #707070;
+  @extend %position-center;
+  justify-content: space-around;
+}
+
+.selectopt {
+  display: inline;
+}
+
+.production {
+  background-color: $content-background;
+}
+
+.functionality {
+  background-color: $content-background;
+}
+
+.footer {
+  background-color: $head-footer-background;
+  color: #FFF;
+  @extend %position-center;
+}
+
+.none {
+  display: none;
+}

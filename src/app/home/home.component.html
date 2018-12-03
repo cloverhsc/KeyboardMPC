@@ -54,7 +54,10 @@
         </span>
           <select formControlName="func_key"
           class="custom-select col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <option value='default'>DEFAULT</option>
+            <option value='INIT'>DEFAULT</option>
+            <option *ngFor="let funckey of
+            KeyboardList[PageForm.value.keyboardModel].funcKeyList"
+            [value]="funckey.toUpperCase()">{{funckey.toUpperCase()}}</option>
           </select>
       </div>
     </form>

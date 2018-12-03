@@ -5,7 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 
 import { ModelBase, Language } from './../keyboard_Object/keyboard-model';
 // import * as ProdList from './../production_list';
-// import { ProductionList } from './../production_list';
+// import { KeyboardInfo } from './../production_list';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,7 @@ import { ModelBase, Language } from './../keyboard_Object/keyboard-model';
 })
 export class HomeComponent implements OnInit {
   // public KeyboardList = new ProductionList();
-  public KeyboardList;
+  public KeyboardList: any;
   public ChangeMode = false;
   public pageData = {};
   public PageForm: FormGroup;     // web page options form table.
@@ -24,20 +24,20 @@ export class HomeComponent implements OnInit {
   public keys: Array<string>;   // KeyboardList object's key array.
 
   // Save keyboard macro/keychange/function setting.
-  public keyConfig = {
+  public keyboardConfig = {
     macro: [],
     keyChange: [],
     functionSet: []
   };
 
 
-  public PageSetting = {
+  public keyboardInfo = {
     keyboard: '',           // model name on page.
     language: '',           // layout on page.
     profileCount: 5,        // layer list on page.
     profile: 1,             // which layer user choice on page.
     funckeyList: ['fn', 'pn', 'fn1'],  // func_key user select on page.
-    storey: 'INIT'
+    storey: 'INIT'                     // func_key which one selected.
   };
 
   private el: ElementRef;
@@ -55,14 +55,6 @@ export class HomeComponent implements OnInit {
     // Get KeyboardList Object key name.
     this.keys = Object.keys(this.KeyboardList);
 
-    // initial all options in page.
-    this.PageForm = this.fb.group({
-      keyboardModel: [this.KeyboardList[this.keys[0]].code],
-      layoutLang: [this.KeyboardList[this.keys[0]].language[0].name],
-      profile: [1],
-      func_key: ['default']
-    });
-
     // Check cookies. if have it loading cookies content.
     this.ChkAndLoadCookies();
 
@@ -77,23 +69,72 @@ export class HomeComponent implements OnInit {
     return Array.from(Array(n).keys()).map(x => ++x);
   }
 
+  /**
+   * Initial PageForm content.
+   * if have cookies -> use cookies content.
+   * else -> use keyboardlist first one information.
+   * TODO: when cookies exist. change PageForm content, keyboardInfo and keyboardConfig.
+   */
+  InitialPageForm(cookie?: Object) {
+    if (cookie) {
+      // change PageForm content, keyboardInfo and keyboardConfig.
+      console.log('Have cookies');
+    } else {
+      console.log('No cookies');
+      this.PageForm = this.fb.group({
+        keyboardModel: [this.KeyboardList[this.keys[0]].code],
+        layoutLang: [this.KeyboardList[this.keys[0]].language[0].name],
+        profile: [1],
+        func_key: ['INIT']
+      });
+
+      this.keyboardInfo.keyboard = this.KeyboardList[this.keys[0]].name;
+      this.keyboardInfo.language = this.KeyboardList[this.keys[0]].language[0].name;
+      this.keyboardInfo.profile = 1;
+      this.keyboardInfo.profileCount = this.KeyboardList[this.keys[0]].profileCount;
+      this.keyboardInfo.funckeyList = this.KeyboardList[this.keys[0]].funcKeyList;
+      this.keyboardInfo.storey = 'INIT';
+    }
+  }
+
   /** When user change keyboard model event.
-   * 1. Layout always chice "ANSI" option.
-   * 2. if have set marcro or key change then show alert to warning user
+   * 1. Layout always choice "ANSI" option.
+   * 2. if had set marcro, key change or func_key then show alert to warning user
    *    "all setting will be clear".
    * 3. Write new keyboard model to cookies
+   * 4. when change keyboard model need to show correct keyboard layout in tab content.
    *
    * TODO: implement.
    */
   onModelChange(event: Event) {
-    this.PageForm.patchValue({layoutLang: ['ANSI']});
+
+    // see if have any config(macro/keychange/func key) already setting.
+    if ( this.keyboardConfig.functionSet.length +
+    this.keyboardConfig.keyChange.length +
+    this.keyboardConfig.macro.length > 0 ) {
+      // show alert to warning user.
+      if (confirm('Warning: Change Keyboard will reset all settings')) {
+        // change keyboardinfo and clean keyboardConfig.
+      } else {
+        // unchange ! let PageForm content to old setting.
+        console.log('No change');
+        this.PageForm.patchValue({keyboardModel: [this.keyboardInfo.keyboard]});
+        this.PageForm.patchValue({layoutLang: [this.keyboardInfo.language]});
+        this.PageForm.patchValue({profile: [this.keyboardInfo.profile]});
+        this.PageForm.patchValue({func_key: [this.keyboardInfo.storey]});
+      }
+    } else {
+      // No key config(macro/keychange/func key) setting.
+      this.PageForm.patchValue({ layoutLang: ['ANSI'] });
+    }
 
   }
 
   /**
-   * 1. if have set marcro or key change then show alert to warning user
+   * 1. if had set marcro, key change or func_key then show alert to warning user
    *    "all setting will be clear".
    * 2. Write new Layout config toi cookies
+   * 3. Show correct keyboard layout in tab content.
    *
    * TODO: implement.
    */
@@ -144,7 +185,10 @@ export class HomeComponent implements OnInit {
     const haveKeySet = this.cookieService.check('keyData');
     if (haveSet && haveKeySet) {
       // load cookies content
+    } else {
+      this.InitialPageForm();
     }
+
   }
 
   /**
